@@ -6,7 +6,10 @@
   <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/babel-standalone"></script>
 
-  <script src="https://unpkg.com/react-force-graph-vr"></script>
+  <script src="https://unpkg.com/react-force-graph-2d"></script>
+  <script src="https://unpkg.com/react-force-graph-3d"></script>
+<script src="https://unpkg.com/react-force-graph-vr"></script>
+<script src="https://unpkg.com/react-force-graph-ar"></script>
   <!--<script src="../../src/packages/react-force-graph-vr/dist/react-force-graph-vr.js"></script>-->
 </head>
 
@@ -14,9 +17,9 @@
   <div id="graph"></div>
 
   <script type="text/jsx">
-    fetch('../datasets/blocks.json').then(res => res.json()).then(data => {
+    fetch('https://raw.githubusercontent.com/jbrill/lightning-json-snapshot/master/graph_data.json').then(res => res.json()).then(data => {
       ReactDOM.render(
-        <ForceGraphVR
+        <ForceGraph2D
           graphData={data}
           nodeLabel={node => `${node.user}: ${node.description}`}
           nodeAutoColorBy="user"
