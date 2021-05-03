@@ -19,7 +19,8 @@ for node in node_data:
     graph_data["nodes"].append({
         "id": node["id"],
         "score": bos_data.get("data")[bos_idx]["score"],
-        "alias": bos_data.get("data")[bos_idx]["alias"]
+        "alias": bos_data.get("data")[bos_idx]["alias"],
+        "rankCapacity": bos_data.get("data")[bos_idx]["rankCapacity"],
     })
 
 for channel in channel_data:

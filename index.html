@@ -18,12 +18,13 @@
   <div id="graph"></div>
 
   <script type="text/jsx">
-    fetch('https://raw.githubusercontent.com/jbrill/lightning-json-snapshot/master/graph_data.json').then(res => res.json()).then(data => {
+    fetch('https://raw.githubusercontent.com/jbrill/lightning-json-snapshot/master/graph_data_bos.json').then(res => res.json()).then(data => {
       ReactDOM.render(
         <ForceGraph2D
           graphData={data}
-          nodeLabel={node => `${node.alias}: ${node.id}`}
-          nodeAutoColorBy="user"
+          nodeLabel={node => `${node.alias}: ${node.score}`}
+          nodeVal="rankCapacity"
+          nodeAutoColorBy="score"
           linkDirectionalParticles={1}
         />,
         document.getElementById('graph')
