@@ -20,7 +20,7 @@
   <script type="text/jsx">
     const { useRef, useCallback } = React;
 
-    fetch('https://raw.githubusercontent.com/jbrill/lightning-json-snapshot/master/graph_data_bos.json').then(res => res.json()).then(data => {
+    fetch('https://raw.githubusercontent.com/jbrill/lightning-json-snapshot/master/graph_data_merged.json').then(res => res.json()).then(data => {
       const FocusGraph = () => {
         const fgRef = useRef();
 
@@ -39,8 +39,9 @@
         return <ForceGraph3D
           ref={fgRef}
           graphData={data}
-          nodeLabel={node => `${node.alias}: ${node.score}`}
+          nodeLabel={node => !node.score ? `${node.id}` : `${node.alias}: ${node.score}`}
           nodeValue="percentile"
+          nodeColor={node => !node.score ? '#DDDDDD' : 'red'}
           linkDirectionalParticles={1}
           onNodeClick={handleClick}
         />;
