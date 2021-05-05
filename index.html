@@ -8,67 +8,51 @@
   <!-- <script src='https://unpkg.com/ngraph.forcelayout@3.0.0/dist/ngraph.forcelayout.min.js'></script> -->
   <link rel="stylesheet" href="mystyle.css">
 
-  <!-- <script src="https://unpkg.com/react-force-graph-2d"></script> -->
+  <script src="https://unpkg.com/react-force-graph-2d"></script>
   <script src="https://unpkg.com/react-force-graph-3d"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;400&display=swap" rel="stylesheet">
+
 <!-- <script src="https://unpkg.com/react-force-graph-vr"></script>
 <script src="https://unpkg.com/react-force-graph-ar"></script> -->
   <!--<script src="../../src/packages/react-force-graph-vr/dist/react-force-graph-vr.js"></script>-->
 </head>
 
 <body>
-  <div id="graph"></div>
+  <div id="graph"><p style="color: white">Loading...</p></div>
 
   <script type="text/jsx">
-
     const { useRef, useEffect, useCallback } = React;
+    window.devicePixelRatio = 1; // use standard resolution in retina displays
 
     fetch('https://raw.githubusercontent.com/jbrill/lightning-json-snapshot/master/graph_data_merged.json').then(res => res.json()).then(data => {
       const FocusGraph = () => {
         const fgRef = useRef();
 
-        const handleClick = useCallback(node => {
-          // Aim at node from outside it
-          const distance = 40;
-          const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
-
-          fgRef.current.cameraPosition(
-            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
-            node, // lookAt ({ x, y, z })
-            3000  // ms transition duration
-          );
-        }, [fgRef]);
+  
 
         const distance = 5000;
 
-        useEffect(() => {
-          fgRef.current.cameraPosition({ z: distance });
-  
-          // camera orbit
-          let angle = 0;
-          setInterval(() => {
-            fgRef.current.cameraPosition({
-              x: distance * Math.sin(angle),
-              z: distance * Math.cos(angle)
-            });
-            angle += Math.PI / 300;
-          }, 10);
-        }, []);
-  
         return (
           <div>
             <PageLink />
-            <ForceGraph3D
+            <ForceGraph2D
               ref={fgRef}
               graphData={data}
               nodeLabel={node => !node.score ? `${node.id}` : `${node.alias}: ${node.score}`}
               nodeValue={node => !node.percentile ? 1 : `${node.percentile}`}
               nodeColor={node => !node.score ? '#DDDDDD' : 'red'}
-              onNodeClick={handleClick}
-              enableNavigationControls={false}
+              onNodeClick={node => window.open(`https://1ml.com/node/${node.id}`, '_blank')}
+              enableNavigationControls={true}
               backgroundColor="black"
+              d3AlphaDecay={(0)}
+              d3VelocityDecay={(0.08)}
+              cooldownTime={(60000)}
+              linkColor="#DDDDDD"
+              linkVisibility={true}
               showNavInfo={false}
               linkDirectionalParticles={1}
-            />;
+            />
           </div>
         )
       };
@@ -77,6 +61,7 @@
         render() {
           return(
             <div class="description-contain">
+              <span class="title">Satoshi's Garden - A Lightning Network Visualizer</span>
               <h1>
                 {data.nodes.length} <span class="descriptor">Nodes</span>
               </h1>
@@ -87,11 +72,12 @@
           );
         }
       };
-
+      console.log("HERE2")
       ReactDOM.render(
         <FocusGraph />,
         document.getElementById('graph')
       );
+      console.log("HERE#3")
   });
   
   </script>

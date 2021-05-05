@@ -1,6 +1,18 @@
-h1 {
-  position: absolute;
-  top: 0;
-  color: white;
+body {
+  background: black;
+}
+
+.title {
+  color: #FFC971;
+  font-size: 1.5rem !important;
+}
+
+.description-contain {
+  padding: 1rem;
   z-index: 1;
+  color: #DDDDDD;
+  position: absolute;
+  display: inline-block;
+  font-size: 0.5rem;
+  font-family: 'Work Sans', sans-serif;
 }
