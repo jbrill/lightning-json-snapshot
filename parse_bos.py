@@ -14,6 +14,9 @@ with open("bos_data.json", encoding='utf-8-sig') as json_file:
 graph_data = {"nodes": [], "links": []}
 for node in node_data:
     if node["id"] not in bos_nodes:
+        graph_data["nodes"].append({
+            "id": node["id"]
+        }) 
         continue
     bos_idx = bos_nodes.index(node["id"])
     graph_data["nodes"].append({
@@ -24,9 +27,9 @@ for node in node_data:
     })
 
 for channel in channel_data:
-    if (channel["source"] not in bos_nodes) or (channel["target"] not in bos_nodes):
-        continue
+    # if (channel["source"] not in bos_nodes) or (channel["target"] not in bos_nodes):
+    #     continue
     graph_data["links"].append(channel)
 
-with open('graph_data_bos.json', 'w', encoding='utf-8') as f:
+with open('graph_data_merged.json', 'w', encoding='utf-8') as f:
     json.dump(graph_data, f, ensure_ascii=False, indent=4)
