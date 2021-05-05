@@ -1,0 +1,6 @@
+h1 {
+  position: absolute;
+  top: 0;
+  color: white;
+  z-index: 1;
+}

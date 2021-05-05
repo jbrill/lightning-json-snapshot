@@ -6,6 +6,7 @@
   <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/babel-standalone"></script>
   <!-- <script src='https://unpkg.com/ngraph.forcelayout@3.0.0/dist/ngraph.forcelayout.min.js'></script> -->
+  <link rel="stylesheet" href="mystyle.css">
 
   <!-- <script src="https://unpkg.com/react-force-graph-2d"></script> -->
   <script src="https://unpkg.com/react-force-graph-3d"></script>
@@ -18,7 +19,8 @@
   <div id="graph"></div>
 
   <script type="text/jsx">
-    const { useRef, useCallback } = React;
+
+    const { useRef, useEffect, useCallback } = React;
 
     fetch('https://raw.githubusercontent.com/jbrill/lightning-json-snapshot/master/graph_data_merged.json').then(res => res.json()).then(data => {
       const FocusGraph = () => {
@@ -36,23 +38,61 @@
           );
         }, [fgRef]);
 
-        return <ForceGraph3D
-          ref={fgRef}
-          graphData={data}
-          nodeLabel={node => !node.score ? `${node.id}` : `${node.alias}: ${node.score}`}
-          nodeValue="percentile"
-          nodeColor={node => !node.score ? '#DDDDDD' : 'red'}
-          linkDirectionalParticles={1}
-          onNodeClick={handleClick}
-        />;
+        const distance = 5000;
+
+        useEffect(() => {
+          fgRef.current.cameraPosition({ z: distance });
+  
+          // camera orbit
+          let angle = 0;
+          setInterval(() => {
+            fgRef.current.cameraPosition({
+              x: distance * Math.sin(angle),
+              z: distance * Math.cos(angle)
+            });
+            angle += Math.PI / 300;
+          }, 10);
+        }, []);
+  
+        return (
+          <div>
+            <PageLink />
+            <ForceGraph3D
+              ref={fgRef}
+              graphData={data}
+              nodeLabel={node => !node.score ? `${node.id}` : `${node.alias}: ${node.score}`}
+              nodeValue={node => !node.percentile ? 1 : `${node.percentile}`}
+              nodeColor={node => !node.score ? '#DDDDDD' : 'red'}
+              onNodeClick={handleClick}
+              enableNavigationControls={false}
+              backgroundColor="black"
+              showNavInfo={false}
+              linkDirectionalParticles={1}
+            />;
+          </div>
+        )
+      };
+
+      class PageLink extends React.Component {
+        render() {
+          return(
+            <div class="description-contain">
+              <h1>
+                {data.nodes.length} <span class="descriptor">Nodes</span>
+              </h1>
+              <h1>
+                {data.links.length} <span class="descriptor">Channels</span>
+              </h1>
+            </div>
+          );
+        }
       };
 
       ReactDOM.render(
         <FocusGraph />,
         document.getElementById('graph')
       );
-    });
-
+  });
   
   </script>
 </body>
