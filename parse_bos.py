@@ -20,7 +20,7 @@ for node in node_data:
         "id": node["id"],
         "score": bos_data.get("data")[bos_idx]["score"],
         "alias": bos_data.get("data")[bos_idx]["alias"],
-        "rankCapacity": bos_data.get("data")[bos_idx]["rankCapacity"],
+        "percentile": (bos_data.get("data")[bos_idx]["score"] / 1000000),
     })
 
 for channel in channel_data:
