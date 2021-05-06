@@ -1,5 +1,6 @@
 body {
   background: black;
+  font-family: 'Work Sans', sans-serif;
 }
 
 .title {
@@ -15,4 +16,30 @@ body {
   display: inline-block;
   font-size: 0.5rem;
   font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+}
+
+.bottom-contain {
+  padding: 1rem;
+  z-index: 1;
+  color: #DDDDDD;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: inline-block;
+  font-size: 0.35rem;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+}
+
+.descriptor {
+  font-weight: 100 !important;
+}
+
+.red-text, a {
+  color: red;
+}
+
+.yellow-text {
+  color:  yellow;
 }

@@ -26,10 +26,18 @@ for node in node_data:
         "percentile": (bos_data.get("data")[bos_idx]["score"] / 1000000),
     })
 
+
 for channel in channel_data:
     # if (channel["source"] not in bos_nodes) or (channel["target"] not in bos_nodes):
     #     continue
-    graph_data["links"].append(channel)
+    flag = False
+    for sub_channel in graph_data["links"]:
+        if (channel["source"] == sub_channel["source"] and channel["target"] == sub_channel["target"]):
+            if flag is True:
+                continue
+            flag = True
+    if flag is False:
+        graph_data["links"].append(channel)
 
 with open('graph_data_merged.json', 'w', encoding='utf-8') as f:
     json.dump(graph_data, f, ensure_ascii=False, indent=4)

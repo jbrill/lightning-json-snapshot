@@ -19,7 +19,7 @@
 </head>
 
 <body>
-  <div id="graph"><p style="color: white">Loading...</p></div>
+  <div id="graph"><p style="position: absolute; top: 50%; left: 50%; color: white">Loading...</p></div>
 
   <script type="text/jsx">
     const { useRef, useEffect, useCallback } = React;
@@ -29,13 +29,12 @@
       const FocusGraph = () => {
         const fgRef = useRef();
 
-  
-
         const distance = 5000;
 
         return (
           <div>
             <PageLink />
+            <BottomDescription />
             <ForceGraph2D
               ref={fgRef}
               graphData={data}
@@ -72,12 +71,24 @@
           );
         }
       };
-      console.log("HERE2")
+      class BottomDescription extends React.Component {
+        render() {
+          return(
+            <div class="bottom-contain">
+              <h1>
+                <span class="red-text">Red</span> nodes represent BOS Score nodes. Learn more about the BOS score <a href="https://lightningwiki.net/bos/" target="_blank">here</a>.
+              </h1>
+              <h1>
+                Send me a tip! Or <a class="yellow-text" href="https://1ml.com/node/039dc42f737b519d18278022d307196ee91fbaf586f68ac6c4eeeaa1ccbbf7c739" target="_blank">open a channel</a> with me.
+              </h1>
+            </div>
+          );
+        }
+      };
       ReactDOM.render(
         <FocusGraph />,
         document.getElementById('graph')
       );
-      console.log("HERE#3")
   });
   
   </script>
